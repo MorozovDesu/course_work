@@ -7,58 +7,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static course_work.Particle;
 
 namespace course_work
 {
     public partial class Form1 : Form
     {
         // собственно список, пока пустой
-        List<Particle> particles = new List<Particle>();
+        Emitter emitter = new Emitter(); // добавили эмиттер
         public Form1()
         {
             InitializeComponent();
             picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);
-            // генерирую 500 частиц
-            for (var i = 0; i < 500; ++i)
-            {
-                var particle = new Particle();
-                // переношу частицы в центр изображения
-                particle.X = picDisplay.Image.Width / 2;
-                particle.Y = picDisplay.Image.Height / 2;
-                // добавляю список
-                particles.Add(particle);
-            }
         }
-        private void UpdateState()
-        {
-            foreach (var particle in particles)
-            {
-                var directionInRadians = particle.Direction / 180 * Math.PI;
-                particle.X += (float)(particle.Speed * Math.Cos(directionInRadians));
-                particle.Y -= (float)(particle.Speed * Math.Sin(directionInRadians));
-            }
-        }
-
+       
         // функция рендеринга
-        private void Render(Graphics g)
-        {
-            // утащили сюда отрисовку частиц
-            foreach (var particle in particles)
-            {
-                particle.Draw(g);
-            }
-        }
+        
         private void timer_Tick(object sender, EventArgs e)
         {
-            UpdateState(); // каждый тик обновляем систему
+            emitter.UpdateState();
 
             using (var g = Graphics.FromImage(picDisplay.Image))
             {
-                g.Clear(Color.White);
-                Render(g); // рендерим систему
+                g.Clear(Color.Black); // А ЕЩЕ ЧЕРНЫЙ ФОН СДЕЛАЮ
+                emitter.Render(g);
             }
 
             picDisplay.Invalidate();
+        }
+        private void picDisplay_MouseMove(object sender, MouseEventArgs e)
+        {
+            // в обработчике заносим положение мыши в переменные для хранения положения мыши
+            emitter.MousePositionX = e.X;
+            emitter.MousePositionY = e.Y;
         }
     }
 }
