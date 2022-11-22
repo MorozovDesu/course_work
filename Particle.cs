@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace course_work
 {
-    internal class Particle
+    public class Particle
     {
         public int Radius; // радиус частицы
         public float X; // X координата положения частицы в пространстве
@@ -83,4 +83,5 @@ namespace course_work
             }
         }
     }
+
 }
