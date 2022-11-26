@@ -34,8 +34,20 @@ namespace course_work
                 X = picDisplay.Width / 2,
                 Y = picDisplay.Height / 2,
             };
-
             emitters.Add(this.emitter);
+
+            emitter.impactPoints.Add(new GravityPoint
+            {
+                X = picDisplay.Width / 2 + 100,
+                Y = picDisplay.Height / 2,
+            });
+
+            // добавил второй гравитон
+            emitter.impactPoints.Add(new GravityPoint
+            {
+                X = picDisplay.Width / 2 - 100,
+                Y = picDisplay.Height / 2,
+            });
         }
        
         // функция рендеринга
@@ -57,6 +69,23 @@ namespace course_work
             // в обработчике заносим положение мыши в переменные для хранения положения мыши
             emitter.MousePositionX = e.X;
             emitter.MousePositionY = e.Y;
+        }
+        private void tbDirection_Scroll_1(object sender, EventArgs e)
+        {
+            emitter.Direction = tbDirection.Value; // направлению эмиттера присваиваем значение ползунка
+            lblDirection.Text = $"{tbDirection.Value}°"; // добавил вывод значения
+        }
+
+        private void tbGraviton_Scroll(object sender, EventArgs e)
+        {
+            foreach (var p in emitter.impactPoints)
+            {
+                if (p is GravityPoint) // так как impactPoints не обязательно содержит поле Power, надо проверить на тип 
+                {
+                    // если гравитон то меняем силу
+                    (p as GravityPoint).Power = tbGraviton.Value;
+                }
+            }
         }
     }
 }
