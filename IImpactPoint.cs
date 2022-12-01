@@ -51,6 +51,13 @@ namespace course_work
                        Power,
                        Power
                    );
+                g.DrawString(
+            $"Я гравитон\nc силой {Power}", // надпись, можно перенос строки вставлять (если вы Катя, то может не работать и надо использовать \r\n)
+            new Font("Verdana", 10), // шрифт и его размер
+            new SolidBrush(Color.White), // цвет шрифта
+            X, // расположение в пространстве
+            Y
+        );
             }
         }
         public class AntiGravityPoint : IImpactPoint
@@ -67,7 +74,51 @@ namespace course_work
                 particle.SpeedX -= gX * Power / r2; // тут минусики вместо плюсов
                 particle.SpeedY -= gY * Power / r2; // и тут
             }
-        }
-    }
+            public override void Render(Graphics g)
+            {
+                // буду рисовать окружность с диаметром равным Power
+                g.DrawEllipse(
+                       new Pen(Color.Red),
+                       X - Power / 2,
+                       Y - Power / 2,
+                       Power,
+                       Power
+                   );
+            }
+            }
+        public class DeathGravityPoint : IImpactPoint
+        {
+            public int counter = 0; // счётчик
+            public int Power = 100;
+            public override void ImpactParticle(Particle particle)
+            {
+                float gX = X - particle.X;
+                float gY = Y - particle.Y;
+                float r2 = (float)Math.Max(100, gX * gX + gY * gY);
 
+                //particle.SpeedX -= gX * Power / r2; // тут минусики вместо плюсов
+                //particle.SpeedY -= gY * Power / r2; // и тут
+            }
+            public override void Render(Graphics g)
+            {
+                // буду рисовать окружность с диаметром равным Power
+                g.DrawEllipse(
+                       new Pen(Color.Red),
+                       X - Power / 2,
+                       Y - Power / 2,
+                       Power,
+                       Power
+                   );
+                g.DrawString(
+            $"{Power}", // надпись, можно перенос строки вставлять (если вы Катя, то может не работать и надо использовать \r\n)
+            new Font("Verdana", 10), // шрифт и его размер
+            new SolidBrush(Color.White), // цвет шрифта
+            X, // расположение в пространстве
+            Y
+        );
+            }
+        }
+
+        
+    }
 }
