@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static course_work.IImpactPoint;
 using static course_work.Particle;
 
+
 namespace course_work
 {
     public class Emitter
     {
+        
         List<Particle> particles = new List<Particle>();
         public List<IImpactPoint> impactPoints = new List<IImpactPoint>(); // <<< ТАК ВОТ
         //
@@ -33,6 +36,47 @@ namespace course_work
 
         public Color ColorFrom = Color.White; // начальный цвет частицы
         public Color ColorTo = Color.FromArgb(0, Color.Black); // конечный цвет частиц
+
+
+        ////////////////////////////////////////////////////////////////////////
+        public Action<Emitter, Emitter> OnOverlap;
+        public Matrix GetTransform()
+        {
+            var matrix = new Matrix();
+            matrix.Translate(X, Y);
+            matrix.Rotate(0);
+            return matrix;
+        }
+        public virtual GraphicsPath GetGraphicsPath()
+        {
+            return new GraphicsPath();
+        }
+
+        public virtual bool Overlaps(Emitter obj, Graphics g)
+        {
+            var path1 = this.GetGraphicsPath();
+            var path2 = obj.GetGraphicsPath();
+
+
+            path1.Transform(this.GetTransform());
+            path2.Transform(obj.GetTransform());
+
+
+            var region = new Region(path1);
+            region.Intersect(path2);
+            // пересекаем формы
+            return !region.IsEmpty(g); // если полученная форма не пуста то значит было пересечение
+        }
+        public virtual void Overlap(Emitter obj)
+        {
+            if (this.OnOverlap != null)
+            {
+                this.OnOverlap(this, obj);
+            }
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+
         public void UpdateState()
         {
             int particlesToCreate = ParticlesPerTick; // фиксируем счетчик сколько частиц нам создавать за тик

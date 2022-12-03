@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using static course_work.IImpactPoint;
 using static course_work.Particle;
 
@@ -67,18 +68,11 @@ namespace course_work
             emitter.impactPoints.Add(point3);
             emitter.impactPoints.Add(point4);
 
-            //emitter.impactPoints.Add(new GravityPoint
-            //{
-            //    X = picDisplay.Width / 2 + 100,
-            //    Y = picDisplay.Height / 2,
-            //});
-
-            //// добавил второй гравитон
-            //emitter.impactPoints.Add(new GravityPoint
-            //{
-            //    X = picDisplay.Width / 2 - 100,
-            //    Y = picDisplay.Height / 2,
-            //});
+            point4.onDeath += (c) => 
+            {
+                
+                point4.Counter+= 1;
+            };
         }
        
         // функция рендеринга
@@ -134,5 +128,6 @@ namespace course_work
         {
             point4.Power = tbGraviton4.Value;
         }
+        
     }
 }
