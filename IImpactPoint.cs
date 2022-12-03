@@ -51,13 +51,19 @@ namespace course_work
                        Power,
                        Power
                    );
+                var stringFormat = new StringFormat(); // создаем экземпляр класса
+                stringFormat.Alignment = StringAlignment.Center; // выравнивание по горизонтали
+                stringFormat.LineAlignment = StringAlignment.Center; // выравнивание по вертикали
+
                 g.DrawString(
-            $"Я гравитон\nc силой {Power}", // надпись, можно перенос строки вставлять (если вы Катя, то может не работать и надо использовать \r\n)
-            new Font("Verdana", 10), // шрифт и его размер
-            new SolidBrush(Color.White), // цвет шрифта
-            X, // расположение в пространстве
-            Y
-        );
+                    $"Я гравитон\nc силой {Power}",
+                    new Font("Verdana", 10),
+                    new SolidBrush(Color.White),
+                    X,
+                    Y,
+                    stringFormat // передаем инфу о выравнивании
+                );
+
             }
         }
         public class AntiGravityPoint : IImpactPoint
@@ -84,6 +90,18 @@ namespace course_work
                        Power,
                        Power
                    );
+                var stringFormat = new StringFormat(); // создаем экземпляр класса
+                stringFormat.Alignment = StringAlignment.Center; // выравнивание по горизонтали
+                stringFormat.LineAlignment = StringAlignment.Center; // выравнивание по вертикали
+
+                g.DrawString(
+                    $"Я антигравитон\nc силой {Power}",
+                    new Font("Verdana", 10),
+                    new SolidBrush(Color.White),
+                    X,
+                    Y,
+                    stringFormat // передаем инфу о выравнивании
+                );
             }
             }
         public class DeathGravityPoint : IImpactPoint
@@ -110,12 +128,24 @@ namespace course_work
                        Power
                    );
                 g.DrawString(
-            $"{Power}", // надпись, можно перенос строки вставлять (если вы Катя, то может не работать и надо использовать \r\n)
+            $"", // надпись, можно перенос строки вставлять (если вы Катя, то может не работать и надо использовать \r\n)
             new Font("Verdana", 10), // шрифт и его размер
             new SolidBrush(Color.White), // цвет шрифта
             X, // расположение в пространстве
             Y
         );
+                var stringFormat = new StringFormat(); // создаем экземпляр класса
+                stringFormat.Alignment = StringAlignment.Center; // выравнивание по горизонтали
+                stringFormat.LineAlignment = StringAlignment.Center; // выравнивание по вертикали
+
+                g.DrawString(
+                    $"Я уничтожаю шары",
+                    new Font("Verdana", 10),
+                    new SolidBrush(Color.White),
+                    X,
+                    Y,
+                    stringFormat // передаем инфу о выравнивании
+                );
             }
         }
 
