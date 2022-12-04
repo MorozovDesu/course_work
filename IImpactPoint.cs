@@ -12,8 +12,8 @@ namespace course_work
     {
         public float X; // ну точка же, вот и две координаты
         public float Y;
-        public Action<IImpactPoint> onDeath;
-        //public Action<Particle> OnEmitterOverlap;
+       
+        
         // абстрактный метод с помощью которого будем изменять состояние частиц
         // например притягивать
 
@@ -110,10 +110,12 @@ namespace course_work
             }
 
         /////////////////////////////////////////////////////////////////////
+       
 
-        
         public class DeathGravityPoint : IImpactPoint
         {
+            public Action<Emitter> OnEmitterOverlap;
+            public Action<IImpactPoint> onDeath;
             public int Power = 100;
             public int Counter = 0;
 
@@ -126,36 +128,33 @@ namespace course_work
                 //particle.SpeedX -= gX * Power / r2; // тут минусики вместо плюсов
                 //particle.SpeedY -= gY * Power / r2; // и тут
             }
-            //public override GraphicsPath GetGraphicsPath()
-            //{
-            //    var path = base.GetGraphicsPath();
-            //    path.AddEllipse(X - Power / 2,
-            //           Y - Power / 2,
-            //           Power,
-            //           Power);
-            //    return path;
-            //}
-            //public override void Overlap(Emitter obj)
-            //{
-            //    base.Overlap(obj);
-            //    if (obj is Emitter)
-            //    {
-            //        onDeath(this);
-            //        //OnEmitterOverlap(obj as Emitter);
-            //    }
+            public override GraphicsPath GetGraphicsPath()
+            {
+                var path = base.GetGraphicsPath();
+                path.AddEllipse(300,300,100,100);
+                return path;
+            }
+            public override void Overlap(Emitter obj)
+            {
+                base.Overlap(obj);
+                if (obj is Emitter)
+                {
+                    
+                    OnEmitterOverlap(obj as Emitter);
+                }
 
-            //}
+            }
             public override void Render(Graphics g)
             {
-               
-                // буду рисовать окружность с диаметром равным Power
-                g.DrawEllipse(
-                       new Pen(Color.Red),
-                       X - Power / 2,
-                       Y - Power / 2,
-                       Power,
-                       Power
-                   );
+                onDeath(this);
+                if (Counter == 235)
+                {
+                    Counter = 0;
+                }
+                
+                Color red = Color.FromArgb(255, 0, 0);
+                Color my = Color.FromArgb(Counter, red);
+                g.FillEllipse(new SolidBrush(my), X-Power/2,Y- Power / 2, Power, Power);
                 g.DrawString(
             $"", // надпись, можно перенос строки вставлять (если вы Катя, то может не работать и надо использовать \r\n)
             new Font("Verdana", 10), // шрифт и его размер

@@ -13,7 +13,7 @@ namespace course_work
 {
     public class Emitter
     {
-        
+       
         List<Particle> particles = new List<Particle>();
         public List<IImpactPoint> impactPoints = new List<IImpactPoint>(); // <<< ТАК ВОТ
         //
@@ -54,14 +54,14 @@ namespace course_work
 
         public virtual bool Overlaps(Emitter obj, Graphics g)
         {
-            var path1 = this.GetGraphicsPath();
+            var path1 = GetGraphicsPath();
             var path2 = obj.GetGraphicsPath();
 
 
-            path1.Transform(this.GetTransform());
+            path1.Transform(GetTransform());
             path2.Transform(obj.GetTransform());
 
-
+           
             var region = new Region(path1);
             region.Intersect(path2);
             // пересекаем формы
@@ -69,9 +69,9 @@ namespace course_work
         }
         public virtual void Overlap(Emitter obj)
         {
-            if (this.OnOverlap != null)
+            if (OnOverlap != null)
             {
-                this.OnOverlap(this, obj);
+                OnOverlap(this, obj);
             }
         }
 

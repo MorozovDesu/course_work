@@ -21,7 +21,10 @@ namespace course_work
         GravityPoint point1; // добавил поле под первую точку
         GravityPoint point2; // добавил поле под вторую точку
         AntiGravityPoint point3;
+
+
         DeathGravityPoint point4;
+        List<DeathGravityPoint> objects = new List<DeathGravityPoint>();
         public Form1()
         {
             InitializeComponent();
@@ -64,19 +67,23 @@ namespace course_work
 
             // привязываем поля к эмиттеру
             emitter.impactPoints.Add(point1);
-            emitter.impactPoints.Add(point2);
+           emitter.impactPoints.Add(point2);
             emitter.impactPoints.Add(point3);
             emitter.impactPoints.Add(point4);
 
-            point4.onDeath += (c) => 
+            point4.onDeath += (c) =>
             {
-                
-                point4.Counter+= 1;
+
+                point4.Counter += 1;
+            };
+            point4.OnEmitterOverlap += (c) =>
+            {
+                point4.Counter += 1;
             };
         }
-       
+
         // функция рендеринга
-        
+
         private void timer_Tick(object sender, EventArgs e)
         {
             emitter.UpdateState();
@@ -117,8 +124,8 @@ namespace course_work
         {
             point2.Power = tbGraviton2.Value;
         }
-        
-        
+
+
         private void tbGraviton3_Scroll_1(object sender, EventArgs e)
         {
             point3.Power = tbGraviton3.Value;
@@ -128,6 +135,33 @@ namespace course_work
         {
             point4.Power = tbGraviton4.Value;
         }
-        
+       
+
+        private void picDisplay_MouseClick(object sender, MouseEventArgs e)
+        {
+            //emitter.X= e.X;
+            //emitter.Y= e.Y;
+            point4 = new DeathGravityPoint();
+            objects.Add(point4);
+            point4.X = e.X;
+            point4.Y = e.Y;
+
+            point4.onDeath += (c) =>
+            {
+                
+            };
+
+        }
+
+        private void picDisplay_Paint(object sender, PaintEventArgs e)
+        {
+            var g = e.Graphics;
+            //g.Clear(Color.White);
+            foreach(var obj in objects) 
+            {
+                g.Transform=obj.GetTransform();
+                obj.Render(g);
+            }
+        }
     }
 }
