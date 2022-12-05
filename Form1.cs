@@ -61,25 +61,17 @@ namespace course_work
             };
             point4 = new DeathGravityPoint
             {
-                X = picDisplay.Width / 2 + 200,
+                X = picDisplay.Width / 2 + 100,
                 Y = picDisplay.Height / 2,
             };
 
             // привязываем поля к эмиттеру
-            emitter.impactPoints.Add(point1);
-           emitter.impactPoints.Add(point2);
-            emitter.impactPoints.Add(point3);
+            //emitter.impactPoints.Add(point1);
+            //emitter.impactPoints.Add(point2);
+            //emitter.impactPoints.Add(point3);
             emitter.impactPoints.Add(point4);
 
-            point4.onDeath += (c) =>
-            {
-
-                point4.Counter += 1;
-            };
-            point4.OnEmitterOverlap += (c) =>
-            {
-                point4.Counter += 1;
-            };
+            
         }
 
         // функция рендеринга
@@ -139,27 +131,21 @@ namespace course_work
 
         private void picDisplay_MouseClick(object sender, MouseEventArgs e)
         {
-            //emitter.X= e.X;
-            //emitter.Y= e.Y;
             point4 = new DeathGravityPoint();
             objects.Add(point4);
             point4.X = e.X;
             point4.Y = e.Y;
-
-            point4.onDeath += (c) =>
-            {
-                
-            };
-
+            point4.Power = 100;
+            point4.Counter = 0;
+            point4.Score = 0;
+            emitter.impactPoints.Add(point4);
         }
 
         private void picDisplay_Paint(object sender, PaintEventArgs e)
         {
             var g = e.Graphics;
-            //g.Clear(Color.White);
             foreach(var obj in objects) 
             {
-                g.Transform=obj.GetTransform();
                 obj.Render(g);
             }
         }

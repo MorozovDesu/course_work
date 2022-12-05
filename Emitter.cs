@@ -37,9 +37,6 @@ namespace course_work
         public Color ColorFrom = Color.White; // начальный цвет частицы
         public Color ColorTo = Color.FromArgb(0, Color.Black); // конечный цвет частиц
 
-
-        ////////////////////////////////////////////////////////////////////////
-        public Action<Emitter, Emitter> OnOverlap;
         public Matrix GetTransform()
         {
             var matrix = new Matrix();
@@ -51,31 +48,6 @@ namespace course_work
         {
             return new GraphicsPath();
         }
-
-        public virtual bool Overlaps(Emitter obj, Graphics g)
-        {
-            var path1 = GetGraphicsPath();
-            var path2 = obj.GetGraphicsPath();
-
-
-            path1.Transform(GetTransform());
-            path2.Transform(obj.GetTransform());
-
-           
-            var region = new Region(path1);
-            region.Intersect(path2);
-            // пересекаем формы
-            return !region.IsEmpty(g); // если полученная форма не пуста то значит было пересечение
-        }
-        public virtual void Overlap(Emitter obj)
-        {
-            if (OnOverlap != null)
-            {
-                OnOverlap(this, obj);
-            }
-        }
-
-        ////////////////////////////////////////////////////////////////////////
 
         public void UpdateState()
         {

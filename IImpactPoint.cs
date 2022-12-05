@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace course_work
 {
-    public abstract class IImpactPoint:Emitter
+    public abstract class IImpactPoint
     {
         public float X; // ну точка же, вот и две координаты
         public float Y;
@@ -108,48 +108,37 @@ namespace course_work
                 
             }
             }
-
-        /////////////////////////////////////////////////////////////////////
-       
-
         public class DeathGravityPoint : IImpactPoint
         {
-            public Action<Emitter> OnEmitterOverlap;
+           
             public Action<IImpactPoint> onDeath;
             public int Power = 100;
             public int Counter = 0;
+            public int Score = 0;
 
             public override void ImpactParticle(Particle particle)
             {
                 float gX = X - particle.X;
                 float gY = Y - particle.Y;
-                float r2 = (float)Math.Max(100, gX * gX + gY * gY);
 
-                //particle.SpeedX -= gX * Power / r2; // тут минусики вместо плюсов
-                //particle.SpeedY -= gY * Power / r2; // и тут
-            }
-            public override GraphicsPath GetGraphicsPath()
-            {
-                var path = base.GetGraphicsPath();
-                path.AddEllipse(300,300,100,100);
-                return path;
-            }
-            public override void Overlap(Emitter obj)
-            {
-                base.Overlap(obj);
-                if (obj is Emitter)
+                double r = Math.Sqrt(gX * gX + gY * gY); // считаем расстояние от центра точки до центра частицы
+                
+                if (r + particle.Radius < Power / 2) // если частица оказалось внутри окружности
                 {
-                    
-                    OnEmitterOverlap(obj as Emitter);
+                    particle.Life = 0;
+                    if(particle.Life <= 0)
+                    {
+                        Counter++;
+                        Score++;
+                    }
                 }
-
             }
             public override void Render(Graphics g)
             {
-                onDeath(this);
-                if (Counter == 235)
+                
+                if (Counter >= 235)
                 {
-                    Counter = 0;
+                    Counter = 255;
                 }
                 
                 Color red = Color.FromArgb(255, 0, 0);
@@ -167,7 +156,7 @@ namespace course_work
                 stringFormat.LineAlignment = StringAlignment.Center; // выравнивание по вертикали
                 
                 g.DrawString(
-                    $"Я уничтожаю шары\n{Counter}",
+                    $"Я уничтожаю шары\n{Score}",
                     new Font("Verdana", 10),
                     new SolidBrush(Color.White),
                     X,
