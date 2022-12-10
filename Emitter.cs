@@ -26,13 +26,14 @@ namespace course_work
         public int Y; // соответствующая координата Y 
         public int Direction = 0; // вектор направления в градусах куда сыпет эмиттер
         public int Spreading = 360; // разброс частиц относительно Direction
-        public int SpeedMin = 1; // начальная минимальная скорость движения частицы
+        public int SpeedMin = 0; // начальная минимальная скорость движения частицы
         public int SpeedMax = 10; // начальная максимальная скорость движения частицы
         public int RadiusMin = 2; // минимальный радиус частицы
         public int RadiusMax = 10; // максимальный радиус частицы
         public int LifeMin = 20; // минимальное время жизни частицы
         public int LifeMax = 100; // максимальное время жизни частицы
         public int ParticlesPerTick = 1;
+        public int Score = 0;
 
         public Color ColorFrom = Color.White; // начальный цвет частицы
         public Color ColorTo = Color.FromArgb(0, Color.Black); // конечный цвет частиц
@@ -48,17 +49,16 @@ namespace course_work
         {
             return new GraphicsPath();
         }
-
+        
         public void UpdateState()
         {
+            Score = ParticlesCount;
             int particlesToCreate = ParticlesPerTick; // фиксируем счетчик сколько частиц нам создавать за тик
             foreach (var particle in particles)
             {
                 if (particle.Life <= 0) // если частицы умерла
                 {
-                    /* 
-                     * то проверяем надо ли создать частицу
-                     */
+                    Score -= 1;
                     if (particlesToCreate > 0)
                     {
                         /* у нас как сброс частицы равносилен созданию частицы */
@@ -93,6 +93,7 @@ namespace course_work
                 particles.Add(particle);
             }
         }
+        
         public int ParticlesCount = 500;
         public virtual void ResetParticle(Particle particle)
         {

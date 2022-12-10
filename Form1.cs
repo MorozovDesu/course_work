@@ -25,6 +25,8 @@ namespace course_work
 
         DeathGravityPoint point4;
         List<DeathGravityPoint> objects = new List<DeathGravityPoint>();
+        
+
         public Form1()
         {
             InitializeComponent();
@@ -65,10 +67,7 @@ namespace course_work
                 Y = picDisplay.Height / 2,
             };
 
-            // привязываем поля к эмиттеру
-            //emitter.impactPoints.Add(point1);
-            //emitter.impactPoints.Add(point2);
-            //emitter.impactPoints.Add(point3);
+            
             emitter.impactPoints.Add(point4);
 
             
@@ -85,6 +84,10 @@ namespace course_work
                 g.Clear(Color.Black); // А ЕЩЕ ЧЕРНЫЙ ФОН СДЕЛАЮ
                 emitter.Render(g);
             }
+
+            label1.Text = string.Empty;
+            label1.BackColor= Color.White;
+            label1.Text = string.Format("Количество частиц: ") + emitter.Score ;
 
             picDisplay.Invalidate();
         }
@@ -109,23 +112,28 @@ namespace course_work
 
         private void tbGraviton_Scroll(object sender, EventArgs e)
         {
-            point1.Power = tbGraviton1.Value;
+            emitter.Spreading = tbGraviton1.Value;
         }
 
         private void tbGraviton2_Scroll(object sender, EventArgs e)
         {
-            point2.Power = tbGraviton2.Value;
+            emitter.ParticlesPerTick = tbGraviton2.Value;
         }
 
 
         private void tbGraviton3_Scroll_1(object sender, EventArgs e)
         {
-            point3.Power = tbGraviton3.Value;
+           emitter.SpeedMax = tbGraviton3.Value+3;
+            if(emitter.SpeedMax <= emitter.SpeedMin)
+            {
+                emitter.SpeedMax +=10;
+            }
         }
 
         private void tbGraviton4_Scroll_1(object sender, EventArgs e)
         {
             point4.Power = tbGraviton4.Value;
+            
         }
        
 
@@ -149,5 +157,7 @@ namespace course_work
                 obj.Render(g);
             }
         }
+
+        
     }
 }
