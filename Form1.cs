@@ -85,8 +85,9 @@ namespace course_work
                 emitter.Render(g);
             }
 
-            label1.Text = string.Empty;
-            label1.BackColor= Color.White;
+            label1.Text = string.Empty;//добавил вывод кол-ва частиц
+            label1.BackColor= Color.Black;
+            label1.ForeColor = Color.White;
             label1.Text = string.Format("Количество частиц: ") + emitter.Score ;
 
             picDisplay.Invalidate();
@@ -110,18 +111,18 @@ namespace course_work
             lblDirection.Text = $"{tbDirection.Value}°"; // добавил вывод значения
         }
 
-        private void tbGraviton_Scroll(object sender, EventArgs e)
+        private void tbGraviton_Scroll(object sender, EventArgs e)//скорость частиц
         {
             emitter.Spreading = tbGraviton1.Value;
         }
 
-        private void tbGraviton2_Scroll(object sender, EventArgs e)
+        private void tbGraviton2_Scroll(object sender, EventArgs e)//кол-во частиц вза тик
         {
             emitter.ParticlesPerTick = tbGraviton2.Value;
         }
 
 
-        private void tbGraviton3_Scroll_1(object sender, EventArgs e)
+        private void tbGraviton3_Scroll_1(object sender, EventArgs e)//Скорость частиц
         {
            emitter.SpeedMax = tbGraviton3.Value+3;
             if(emitter.SpeedMax <= emitter.SpeedMin)
@@ -130,26 +131,27 @@ namespace course_work
             }
         }
 
-        private void tbGraviton4_Scroll_1(object sender, EventArgs e)
+        private void tbGraviton4_Scroll_1(object sender, EventArgs e)//Размер шара
         {
             point4.Power = tbGraviton4.Value;
             
         }
        
 
-        private void picDisplay_MouseClick(object sender, MouseEventArgs e)
+        private void picDisplay_MouseClick(object sender, MouseEventArgs e)// передаю новому шару аргументы
         {
-            point4 = new DeathGravityPoint();
+            point4 = new DeathGravityPoint();//передвю новому эммитору поля
             objects.Add(point4);
             point4.X = e.X;
             point4.Y = e.Y;
             point4.Power = 100;
             point4.Counter = 0;
             point4.Score = 0;
+            point4.Red = 0;
             emitter.impactPoints.Add(point4);
         }
 
-        private void picDisplay_Paint(object sender, PaintEventArgs e)
+        private void picDisplay_Paint(object sender, PaintEventArgs e)// для создания шаров
         {
             var g = e.Graphics;
             foreach(var obj in objects) 

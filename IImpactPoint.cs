@@ -108,13 +108,13 @@ namespace course_work
                 
             }
             }
-        public class DeathGravityPoint : IImpactPoint
+        public class DeathGravityPoint : IImpactPoint//шар уничтожающий эмиттеры
         {
            
             public Action<IImpactPoint> onDeath;
             public int Power = 100;
-            public int Counter = 0;
-            public int Score = 0;
+            public int Counter = 0;//счёт для насыщенности цвета
+            public int Score = 0;//счет уничтоженных шаров
 
             public override void ImpactParticle(Particle particle)
             {
@@ -130,9 +130,27 @@ namespace course_work
                     {
                         Counter++;
                         Score++;
+                        Red++;
+                        if (Red >= 255)
+                        {
+                            Red = 255;
+                            Green += 1;
+                            if (Green >= 255)
+                            {
+                                Green = 255;
+                                Blue += 1;
+                                if (Blue >= 100)
+                                {
+                                    Red = 0;
+                                    Blue = 0;
+                                    Green = 0;
+                                }
+                            }
+                        }
                     }
                 }
             }
+            public int Red, Green, Blue;//для изменения цвета
             public override void Render(Graphics g)
             {
                 
@@ -141,7 +159,8 @@ namespace course_work
                     Counter = 255;
                 }
                 
-                Color red = Color.FromArgb(255, 0, 0);
+                
+                Color red = Color.FromArgb(Red, Green, Blue);//для изменения цвета
                 Color my = Color.FromArgb(Counter, red);
                 g.FillEllipse(new SolidBrush(my), X-Power/2,Y- Power / 2, Power, Power);
                 g.DrawString(

@@ -2,10 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static course_work.IImpactPoint;
 using static course_work.Particle;
 
 
@@ -33,7 +29,7 @@ namespace course_work
         public int LifeMin = 20; // минимальное время жизни частицы
         public int LifeMax = 100; // максимальное время жизни частицы
         public int ParticlesPerTick = 1;
-        public int Score = 0;
+        public int Score = 0;// Счёт уничтоженных частиц
 
         public Color ColorFrom = Color.White; // начальный цвет частицы
         public Color ColorTo = Color.FromArgb(0, Color.Black); // конечный цвет частиц
