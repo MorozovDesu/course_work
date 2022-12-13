@@ -45,7 +45,6 @@ namespace course_work
         {
             return new GraphicsPath();
         }
-        
         public void UpdateState()
         {
             Score = ParticlesCount;
@@ -89,7 +88,6 @@ namespace course_work
                 particles.Add(particle);
             }
         }
-        
         public int ParticlesCount = 500;
         public virtual void ResetParticle(Particle particle)
         {
@@ -109,7 +107,6 @@ namespace course_work
 
             particle.Radius = Particle.rand.Next(RadiusMin, RadiusMax);
         }
-
         public void Render(Graphics g)
         {
             // ну тут так и быть уж сам впишу...

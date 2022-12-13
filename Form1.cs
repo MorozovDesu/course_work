@@ -20,12 +20,14 @@ namespace course_work
         Emitter emitter; // добавим поле для эмиттера
         GravityPoint point1; // добавил поле под первую точку
         GravityPoint point2; // добавил поле под вторую точку
+        GravityPoint point5; // добавил поле под вторую точку
+        GravityPoint point6; // добавил поле под вторую точку
         AntiGravityPoint point3;
 
 
         DeathGravityPoint point4;
         List<DeathGravityPoint> objects = new List<DeathGravityPoint>();
-        
+
 
         public Form1()
         {
@@ -39,38 +41,61 @@ namespace course_work
                 SpeedMin = 10,
                 SpeedMax = 10,
                 ColorFrom = Color.Gold,
-                ColorTo = Color.FromArgb(0, Color.Red),
+                ColorTo = Color.FromArgb(0, Color.White),
                 ParticlesPerTick = 10,
                 X = picDisplay.Width / 2,
-                Y = picDisplay.Height / 2,
+                Y = picDisplay.Height / 4,
             };
             emitters.Add(this.emitter);
 
             point1 = new GravityPoint
             {
-                X = picDisplay.Width / 2 + 100,
-                Y = picDisplay.Height / 2,
+                X = picDisplay.Width / 2 + 250,
+                Y = picDisplay.Height - 100,
+                NewFromColor = Color.FromArgb(255, Color.Green),
+                NewToColor = Color.FromArgb(255, Color.GreenYellow)
             };
             point2 = new GravityPoint
             {
-                X = picDisplay.Width / 2 - 100,
-                Y = picDisplay.Height / 2,
+                X = picDisplay.Width / 2 - 275,
+                Y = picDisplay.Height -100,
+                NewFromColor = Color.FromArgb(255, Color.CadetBlue),
+                NewToColor = Color.FromArgb(255, Color.Blue)
+            };
+            point5 = new GravityPoint
+            {
+                X = picDisplay.Width / 2 - 200,
+                Y = picDisplay.Height - 100,
+                NewFromColor = Color.FromArgb(255, Color.Red),
+                NewToColor = Color.FromArgb(255, Color.Snow)
+            };
+            point6 = new GravityPoint
+            {
+                X = picDisplay.Width / 2 - 275,
+                Y = picDisplay.Height - 100,
+                NewFromColor = Color.FromArgb(255, Color.CadetBlue),
+                NewToColor = Color.FromArgb(255, Color.Blue)
             };
             point3 = new AntiGravityPoint
             {
-                X = picDisplay.Width / 2 - 200,
-                Y = picDisplay.Height / 2,
-            };
-            point4 = new DeathGravityPoint
-            {
-                X = picDisplay.Width / 2 + 100,
-                Y = picDisplay.Height / 2,
+                X = picDisplay.Width/2,
+                Y = picDisplay.Height -100,
+                NewFromColor = Color.FromArgb(255, Color.White),
+                NewToColor = Color.FromArgb(255, Color.Gray)
             };
 
-            
-            emitter.impactPoints.Add(point4);
+            //point4 = new DeathGravityPoint
+            //{
+            //    X = picDisplay.Width / 2 + 100,
+            //    Y = picDisplay.Height / 3,
+            //};
+            emitter.impactPoints.Add(point6);
+            emitter.impactPoints.Add(point5);
+            emitter.impactPoints.Add(point1);
+            emitter.impactPoints.Add(point2);
+            emitter.impactPoints.Add(point3);
 
-            
+
         }
 
         // функция рендеринга
@@ -102,8 +127,8 @@ namespace course_work
             }
 
             // а тут передаем положение мыши, в положение гравитона
-            point2.X = e.X;
-            point2.Y = e.Y;
+            //point2.X = e.X;
+            //point2.Y = e.Y;
         }
         private void tbDirection_Scroll_1(object sender, EventArgs e)
         {
@@ -133,24 +158,33 @@ namespace course_work
 
         private void tbGraviton4_Scroll_1(object sender, EventArgs e)//Размер шара
         {
+            
             point4.Power = tbGraviton4.Value;
             
         }
-       
+
 
         private void picDisplay_MouseClick(object sender, MouseEventArgs e)// передаю новому шару аргументы
         {
-            point4 = new DeathGravityPoint();//передвю новому эммитору поля
-            objects.Add(point4);
-            point4.X = e.X;
-            point4.Y = e.Y;
-            point4.Power = 100;
-            point4.Counter = 0;
-            point4.Score = 0;
-            point4.Red = 0;
-            emitter.impactPoints.Add(point4);
+            if (e.Button == MouseButtons.Left)
+            {
+                point4 = new DeathGravityPoint();//передвю новому эммитору поля
+                objects.Add(point4);
+                point4.X = e.X;
+                point4.Y = e.Y;
+                point4.Power = 100;
+                point4.Counter = 0;
+                point4.Score = 0;
+                point4.Red = 0;
+                emitter.impactPoints.Add(point4);
+            }
+            
+            if (e.Button == MouseButtons.Right)
+            {
+                emitter.X = e.X;
+                emitter.Y = e.Y;
+            }
         }
-
         private void picDisplay_Paint(object sender, PaintEventArgs e)// для создания шаров
         {
             var g = e.Graphics;

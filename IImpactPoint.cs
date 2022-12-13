@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using static course_work.Particle;
 
 namespace course_work
 {
@@ -12,8 +15,8 @@ namespace course_work
     {
         public float X; // ну точка же, вот и две координаты
         public float Y;
-       
-        
+        public Color NewFromColor;
+        public Color NewToColor;
         // абстрактный метод с помощью которого будем изменять состояние частиц
         // например притягивать
 
@@ -33,22 +36,34 @@ namespace course_work
         public class GravityPoint : IImpactPoint
         {
             public int Power = 100; // сила притяжения
-
+            
             // а сюда по сути скопировали с минимальными правками то что было в UpdateState
             public override void ImpactParticle(Particle particle)
             {
+                
                 float gX = X - particle.X;
                 float gY = Y - particle.Y;
-                float r2 = (float)Math.Max(100, gX * gX + gY * gY);
 
-                particle.SpeedX += gX * Power / r2;
-                particle.SpeedY += gY * Power / r2;
+                double r = Math.Sqrt(gX * gX + gY * gY); // считаем расстояние от центра точки до центра частицы
+                
+                if (r + particle.Radius < Power / 2) // если частица оказалось внутри окружности
+                {
+                    if(particle is ParticleColorful)
+                    {
+                        var p = (particle as ParticleColorful);
+                        p.FromColor = NewFromColor;
+                        p.ToColor = NewToColor;
+                    }
+                   
+                }
             }
             public override void Render(Graphics g)
             {
+
+
                 // буду рисовать окружность с диаметром равным Power
                 g.DrawEllipse(
-                       new Pen(Color.Red),
+                       new Pen(NewToColor),
                        X - Power / 2,
                        Y - Power / 2,
                        Power,
@@ -61,7 +76,7 @@ namespace course_work
                 g.DrawString(
                     $"Я гравитон\nc силой {Power}",
                     new Font("Verdana", 10),
-                    new SolidBrush(Color.White),
+                    new SolidBrush(NewToColor),
                     X,
                     Y,
                     stringFormat // передаем инфу о выравнивании
@@ -79,15 +94,29 @@ namespace course_work
                 float gX = X - particle.X;
                 float gY = Y - particle.Y;
                 float r2 = (float)Math.Max(100, gX * gX + gY * gY);
-
+                
                 particle.SpeedX -= gX * Power / r2; // тут минусики вместо плюсов
                 particle.SpeedY -= gY * Power / r2; // и тут
+                
+
+                double r = Math.Sqrt(gX * gX + gY * gY); // считаем расстояние от центра точки до центра частицы
+
+                if (r + particle.Radius < Power / 2) // если частица оказалось внутри окружности
+                {
+                    if (particle is ParticleColorful)
+                    {
+                        var p = (particle as ParticleColorful);
+                        p.FromColor = NewFromColor;
+                        p.ToColor = NewToColor;
+                    }
+
+                }
             }
             public override void Render(Graphics g)
             {
                 // буду рисовать окружность с диаметром равным Power
                 g.DrawEllipse(
-                       new Pen(Color.Red),
+                       new Pen(Color.White),
                        X - Power / 2,
                        Y - Power / 2,
                        Power,
@@ -111,7 +140,7 @@ namespace course_work
         public class DeathGravityPoint : IImpactPoint//шар уничтожающий эмиттеры
         {
            
-            public Action<IImpactPoint> onDeath;
+            //public Action<IImpactPoint> onDeath;
             public int Power = 100;
             public int Counter = 0;//счёт для насыщенности цвета
             public int Score = 0;//счет уничтоженных шаров
@@ -175,7 +204,7 @@ namespace course_work
                 stringFormat.LineAlignment = StringAlignment.Center; // выравнивание по вертикали
                 
                 g.DrawString(
-                    $"Я уничтожаю шары\n{Score}",
+                    $"Уничтожаю шары\n{Score}",
                     new Font("Verdana", 10),
                     new SolidBrush(Color.White),
                     X,
