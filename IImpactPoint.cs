@@ -86,7 +86,7 @@ namespace course_work
         }
         public class AntiGravityPoint : IImpactPoint
         {
-            public int Power = 100; // сила отторжения
+            public int Power = 65; // сила отторжения
             
             // а сюда по сути скопировали с минимальными правками то что было в UpdateState
             public override void ImpactParticle(Particle particle)
@@ -116,7 +116,7 @@ namespace course_work
             {
                 // буду рисовать окружность с диаметром равным Power
                 g.DrawEllipse(
-                       new Pen(Color.White),
+                       new Pen(NewToColor),
                        X - Power / 2,
                        Y - Power / 2,
                        Power,
@@ -129,7 +129,7 @@ namespace course_work
                 g.DrawString(
                     $"Я антигравитон\nc силой {Power}",
                     new Font("Verdana", 10),
-                    new SolidBrush(Color.White),
+                    new SolidBrush(NewToColor),
                     X,
                     Y,
                     stringFormat // передаем инфу о выравнивании
@@ -206,7 +206,7 @@ namespace course_work
                 g.DrawString(
                     $"Уничтожаю шары\n{Score}",
                     new Font("Verdana", 10),
-                    new SolidBrush(Color.White),
+                    new SolidBrush(Color.Black),
                     X,
                     Y,
                     stringFormat // передаем инфу о выравнивании

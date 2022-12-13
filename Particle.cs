@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 
 namespace course_work
 {
@@ -18,7 +19,7 @@ namespace course_work
         public float Life; // запас здоровья частицы
         // добавили генератор случайных чисел
         public static Random rand = new Random();
-
+        public bool SpeedVector = false;
         // конструктор по умолчанию будет создавать кастомную частицу
         public Particle()
         {
@@ -79,7 +80,11 @@ namespace course_work
                 var b = new SolidBrush(color);
 
                 g.FillEllipse(b, X - Radius, Y - Radius, Radius * 2, Radius * 2);
+                if (SpeedVector)
+                {
+                    g.DrawLine(new Pen(Color.White), X, Y, X + SpeedX * 2, Y + SpeedY * 2);
 
+                }
                 b.Dispose();
             }
             

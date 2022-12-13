@@ -33,7 +33,7 @@ namespace course_work
 
         public Color ColorFrom = Color.White; // начальный цвет частицы
         public Color ColorTo = Color.FromArgb(0, Color.Black); // конечный цвет частиц
-
+        public bool SpeedVector = false;
         public Matrix GetTransform()
         {
             var matrix = new Matrix();
@@ -47,10 +47,12 @@ namespace course_work
         }
         public void UpdateState()
         {
+            
             Score = ParticlesCount;
             int particlesToCreate = ParticlesPerTick; // фиксируем счетчик сколько частиц нам создавать за тик
             foreach (var particle in particles)
             {
+                particle.SpeedVector = this.SpeedVector;
                 if (particle.Life <= 0) // если частицы умерла
                 {
                     Score -= 1;
