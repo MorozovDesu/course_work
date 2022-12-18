@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
 using static course_work.IImpactPoint;
 using static course_work.Particle;
+
 
 namespace course_work
 {
@@ -122,11 +117,8 @@ namespace course_work
                 NewFromColor = Color.FromArgb(255, Color.Indigo),
                 NewToColor = Color.FromArgb(255, Color.MediumVioletRed)
             };
-            //point4 = new DeathGravityPoint
-            //{
-            //    X = picDisplay.Width / 2 + 100,
-            //    Y = picDisplay.Height / 3,
-            //};
+
+           
             emitter.impactPoints.Add(point1);
             emitter.impactPoints.Add(point2);
             emitter.impactPoints.Add(point3);// анти
@@ -168,10 +160,6 @@ namespace course_work
                 emitter.MousePositionX = e.X;
                 emitter.MousePositionY = e.Y;
             }
-
-            // а тут передаем положение мыши, в положение гравитона
-            //point2.X = e.X;
-            //point2.Y = e.Y;
         }
         private void tbDirection_Scroll_1(object sender, EventArgs e)
         {
@@ -244,5 +232,7 @@ namespace course_work
         {
             emitter.SpeedVector =(checkBox1.Checked);
         }
+
+        
     }
 }
